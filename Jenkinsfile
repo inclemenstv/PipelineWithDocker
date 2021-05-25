@@ -1,12 +1,17 @@
 pipeline {
     agent any
+    triggers { pollSCM('* * * * *') }
+    options {
+        buildDiscarder(logRotaror(numToKeepStr: '5', artifactnumToKeepStr: '5'))
+        timestamps()
+    }
     environment {
       PROJECT_NAME = "Task2-Jenkins"
       OWNER_NAME   = "Kostiantyn Pishchanskyi"
     }
 
     stages {
-        stage('1-Build') {
+        stage('1-Create docker image') {
             steps {
                 echo "Start of Stage Build..."
                 sh '''
