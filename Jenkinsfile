@@ -55,6 +55,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """ssh -tt root@192.168.33.11 << EOF
                 docker login -u $USERNAME -p $PASSWORD
+                docker stop web_app
+                docker rm web_app
+                docker run -d -p 8080:80 --name web_app inclemenstv/web_apps:latest
                 exit
                 EOF"""
                 }
