@@ -39,7 +39,7 @@ pipeline {
                 '''
             }
         }
-        stage('3-Remove unused docker images') {
+        stage('4-Remove unused docker images') {
             steps {
                 echo "Start remove image..."
                 sh '''
@@ -47,7 +47,7 @@ pipeline {
                 '''
             }
         }
-        stage('4-Deploy') {
+        stage('5-Deploy') {
             steps {
                 echo "Start of Stage Deploy..."
                 echo "Deploying..."
@@ -55,7 +55,7 @@ pipeline {
                 echo "End of Stage Build..."
             }
         }
-        stage('5-Test') {
+        stage('6-Test') {
             steps {
                 echo "Start of Stage Test..."
                 echo "Testing..."
