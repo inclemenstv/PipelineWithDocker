@@ -69,7 +69,9 @@ pipeline {
             steps {
                 echo "Start of Stage Test..."
                 echo "Testing..."
-
+                sh '''
+                curl -k http://192.168.33.11
+                '''
                 echo "End of Stage Build..."
             }
         }
