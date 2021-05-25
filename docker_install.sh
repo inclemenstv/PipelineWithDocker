@@ -22,7 +22,3 @@ echo \
 echo "Installing Docker"
 sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
-
-
-echo "add jenkins user to docker"
-sudo usermod -a -G docker jenkins

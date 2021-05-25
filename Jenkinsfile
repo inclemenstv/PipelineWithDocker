@@ -39,10 +39,18 @@ pipeline {
                 '''
             }
         }
+        stage('3-Remove unused docker images') {
+            steps {
+                echo "Start remove image..."
+                sh '''
+                   docker rmi inclemenstv/web_apps:$BUILD_ID
+                '''
+            }
+        }
         stage('4-Deploy') {
             steps {
                 echo "Start of Stage Deploy..."
-                echo "Deploying......."
+                echo "Deploying..."
 
                 echo "End of Stage Build..."
             }
@@ -50,7 +58,7 @@ pipeline {
         stage('5-Test') {
             steps {
                 echo "Start of Stage Test..."
-                echo "Testing......."
+                echo "Testing..."
 
                 echo "End of Stage Build..."
             }
