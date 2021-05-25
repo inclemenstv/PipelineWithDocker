@@ -1,6 +1,9 @@
 pipeline {
     agent any
+<<<<<<< HEAD
     triggers{ cron('* * * * *') }
+=======
+>>>>>>> a230dd8d994f2af088dcf63d6cd682438deefffc
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactnumToKeepStr: '5'))
         timestamps()
