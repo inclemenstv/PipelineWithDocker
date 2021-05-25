@@ -52,10 +52,12 @@ pipeline {
             echo "Start of Stage Deploy..."
             echo "Deploying..."
                 script {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """ssh -tt root@192.168.33.11 << EOF
-                docker ps
+                docker login -u $USERNAME -p $PASSWORD
                 exit
                 EOF"""
+                }
                 }
             echo "End of Stage Build..."
             }
