@@ -25,7 +25,7 @@ pipeline {
             steps {
                 echo "Start Build image..."
                 sh '''
-                   docker build . -t inclemenstv/web_apps:$BUILD_ID
+                   docker build . -t inclemenstv/web_apps:latest
                 '''
                 echo "Building......."
                 echo "End of Stage Build..."
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 echo "Start remove image..."
                 sh '''
-                   docker rmi inclemenstv/web_apps:$BUILD_ID
+                   docker rmi inclemenstv/web_apps:latest
                 '''
             }
         }
