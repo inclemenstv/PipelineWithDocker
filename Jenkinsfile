@@ -51,7 +51,15 @@ pipeline {
             steps {
                 echo "Start of Stage Deploy..."
                 echo "Deploying..."
+                sh '''#!/bin/bash
+				date
+				ssh root@192.168.33.11 >> ENDSSH
+				docker ps
 
+
+
+                ENDSSH
+                '''
                 echo "End of Stage Build..."
             }
         }
