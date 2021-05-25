@@ -49,19 +49,15 @@ pipeline {
         }
         stage('5-Deploy') {
             steps {
+            echo "Start of Stage Deploy..."
+            echo "Deploying..."
                 script {
-                  echo "Start of Stage Deploy..."
-                  echo "Deploying..."
-                  sh '''#!/bin/bash
-			    	ssh root@192.168.33.11 >> ENDSSH
-			    	docker ps
-
-
-
-                 ENDSSH
-                 '''
+                sh """ssh -tt root@192.168.33.11 << EOF
+                docker ps
+                exit
+                EOF"""
                 }
-                echo "End of Stage Build..."
+            echo "End of Stage Build..."
             }
         }
         stage('6-Test') {
