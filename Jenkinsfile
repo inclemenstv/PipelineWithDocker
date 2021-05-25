@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    triggers{ cron('* * * * *') }
+    triggers{ pollSCM('* * * * *') }
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         timestamps()
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('1-Docker login') {
             steps {
-                echo "===== Docker login ====="
+                echo "Docker login..."
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh '''
                    docker login -u $USERNAME -p $PASSWORD
@@ -23,7 +23,7 @@ pipeline {
         }
         stage('2-Create docker image') {
             steps {
-                echo "Start of Stage Build..."
+                echo "Start Build image..."
                 sh '''
                    docker build . -t web_apps:$BUILD_ID
                 '''
@@ -31,7 +31,15 @@ pipeline {
                 echo "End of Stage Build..."
             }
         }
-        stage('3-Deploy') {
+         stage('3-Docker push') {
+            steps {
+                echo "Start push image..."
+                sh '''
+                   docker push $USERNAME/web_apps:$BUILD_ID
+                '''
+            }
+        }
+        stage('4-Deploy') {
             steps {
                 echo "Start of Stage Deploy..."
                 echo "Deploying......."
@@ -39,7 +47,7 @@ pipeline {
                 echo "End of Stage Build..."
             }
         }
-        stage('4-Test') {
+        stage('5-Test') {
             steps {
                 echo "Start of Stage Test..."
                 echo "Testing......."
