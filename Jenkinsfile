@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo "Start push image..."
                 sh '''
-                   docker push inclemenstv/web_apps:$BUILD_ID
+                   docker push inclemenstv/web_apps:latest
                 '''
             }
         }
