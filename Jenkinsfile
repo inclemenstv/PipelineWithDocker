@@ -11,7 +11,17 @@ pipeline {
     }
 
     stages {
-        stage('1-Create docker image') {
+        stage('1-Docker login') {
+            steps {
+                echo "===== Docker login ====="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                sh '''
+                   docker login -u $USERNAME -p $PASSWORD
+                '''
+                }
+            }
+        }
+        stage('2-Create docker image') {
             steps {
                 echo "Start of Stage Build..."
                 sh '''
@@ -21,7 +31,7 @@ pipeline {
                 echo "End of Stage Build..."
             }
         }
-        stage('2-Deploy') {
+        stage('3-Deploy') {
             steps {
                 echo "Start of Stage Deploy..."
                 echo "Deploying......."
@@ -29,7 +39,7 @@ pipeline {
                 echo "End of Stage Build..."
             }
         }
-        stage('3-Test') {
+        stage('4-Test') {
             steps {
                 echo "Start of Stage Test..."
                 echo "Testing......."
