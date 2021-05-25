@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    triggers { pollSCM('* * * * *') }
+    triggers{ cron('* * * * *') }
     options {
-        buildDiscarder(logRotaror(numToKeepStr: '5', artifactnumToKeepStr: '5'))
+        buildDiscarder(logRotator(numToKeepStr: '5', artifactnumToKeepStr: '5'))
         timestamps()
     }
     environment {
