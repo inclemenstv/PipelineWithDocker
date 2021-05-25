@@ -2,7 +2,7 @@ pipeline {
     agent any
     triggers{ cron('* * * * *') }
     options {
-        buildDiscarder(logRotator(numToKeepStr: '5', artifactnumToKeepStr: '5'))
+        buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
         timestamps()
     }
     environment {
