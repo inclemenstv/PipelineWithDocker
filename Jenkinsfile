@@ -31,7 +31,7 @@ pipeline {
                 echo "End of Stage Build..."
             }
         }
-         stage('3-Docker push') {
+         stage('3-Push docker image') {
             steps {
                 echo "Start push image..."
                 sh '''
