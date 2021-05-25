@@ -25,7 +25,7 @@ pipeline {
             steps {
                 echo "Start Build image..."
                 sh '''
-                   docker build . -t web_apps:$BUILD_ID
+                   docker build . -t inclemenstv/web_apps:$BUILD_ID
                 '''
                 echo "Building......."
                 echo "End of Stage Build..."
