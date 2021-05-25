@@ -57,6 +57,7 @@ pipeline {
                 docker login -u $USERNAME -p $PASSWORD
                 docker stop web_app
                 docker rm web_app
+                docker rmi inclemenstv/web_apps:latest
                 docker run -d -p 8080:80 --name web_app inclemenstv/web_apps:latest
                 exit
                 EOF"""
