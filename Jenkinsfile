@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo "Start of Stage Build..."
                 sh '''
-                   docker build . -t webApps:$BUILD_ID
+                   docker build . -t web_apps:$BUILD_ID
                 '''
                 echo "Building......."
                 echo "End of Stage Build..."
