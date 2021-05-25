@@ -70,7 +70,7 @@ pipeline {
                 echo "Start of Stage Test..."
                 echo "Testing..."
                 sh '''
-                curl -k http://192.168.33.11
+                curl -k http://192.168.33.11:8080
                 '''
                 echo "End of Stage Build..."
             }
