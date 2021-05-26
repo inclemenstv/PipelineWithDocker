@@ -32,9 +32,6 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2
     vb.memory = "2048"
   end
-  web.vm.provision "shell" do |shell|
-    shell.path = "nginx_install.sh"
-  end
    web.vm.provision "shell" do |shell|
     shell.path = "docker_install.sh"
   end
