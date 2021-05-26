@@ -5,8 +5,8 @@ Vagrant.configure("2") do |config|
   jenkins.vm.box = "bento/ubuntu-20.04"
   jenkins.vm.define "jenkins"
   jenkins.vm.hostname = "jenkins"
-  #config.vm.network "forwarded_port", guest: 8080, host: 8080
-  jenkins.vm.network "private_network", ip: "192.168.33.10"
+  jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
+#  jenkins.vm.network "private_network", ip: "192.168.33.10"
   jenkins.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.cpus = 2
