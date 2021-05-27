@@ -1,3 +1,7 @@
+require 'yaml'
+settings = YAML.load_file("config.yml")
+
+
 Vagrant.configure("2") do |config|
 
 #jenkins vm
@@ -10,7 +14,7 @@ Vagrant.configure("2") do |config|
   jenkins.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.cpus = 2
-    vb.memory = "4096"
+    vb.memory = 4096
   end
   jenkins.vm.provision "shell" do |shell|
     shell.path = "jenkins_install.sh"
@@ -26,7 +30,7 @@ Vagrant.configure("2") do |config|
   web.vm.box = "bento/ubuntu-20.04"
   web.vm.define "web"
   web.vm.hostname = "web"
-  web.vm.network "private_network", ip: "192.168.33.11"
+  web.vm.network "private_network", ip: settings['web']['WEB_HOST']
   web.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.cpus = 2

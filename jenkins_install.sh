@@ -1,4 +1,5 @@
 #!/bin/bash
+source /vagrant/.env
 
 echo "Updating apt-get"
 sudo apt-get -qq update > /dev/null 2>&1
@@ -40,7 +41,7 @@ while IFS= read -r line
 do
   list=$list' '$line
 done < /vagrant/jenkins-plugins.txt
-java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin install-plugin $list
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth $ADMIN_USERNAME:$ADMIN_PASSWORD install-plugin $list
 
 echo "Restarting Jenkins"
 sudo service jenkins restart
