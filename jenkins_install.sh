@@ -33,17 +33,17 @@ sudo cp /vagrant/jenkins-set-url-and-email.groovy /var/lib/jenkins/init.groovy.d
 sudo service jenkins start
 sleep 1m
 
-echo "Installing jenkins plugins"
-JENKINSPWD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
-rm -f jenkins_cli.jar.*
-wget -q http://localhost:8080/jnlpJars/jenkins-cli.jar
-while IFS= read -r line
-do
-  list=$list' '$line
-done < /vagrant/jenkins-plugins.txt
-java -jar ./jenkins-cli.jar -auth admin:$JENKINSPWD -s http://localhost:8080 install-plugin $list
+#echo "Installing jenkins plugins"
+#rm -f jenkins_cli.jar.*
+#wget -q http://localhost:8080/jnlpJars/jenkins-cli.jar
+#while IFS= read -r line
+#do
+#  list=$list' '$line
+#done < /vagrant/jenkins-plugins.txt
+#java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin install-plugin $list -restart
 
-echo "Restarting Jenkins"
-sudo service jenkins restart
+#echo "Restarting Jenkins"
+#sudo service jenkins restart
 
-sleep 1m
+#sleep 1m
+
