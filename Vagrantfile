@@ -22,8 +22,7 @@ Vagrant.configure("2") do |config|
   jenkins.vm.provision "shell" do |shell|
     shell.path = "docker_install.sh"
   end
-   jenkins.vm.provision "shell",
-    inline: "sudo usermod -a -G docker jenkins"
+
   end
 #web vm
   config.vm.define "web" do |web|
