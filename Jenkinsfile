@@ -3,7 +3,6 @@ pipeline {
     triggers{ pollSCM('* * * * *') }
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
-        timestamps()
     }
     environment {
       PROJECT_NAME = "Task2-Jenkins"
