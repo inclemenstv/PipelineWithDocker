@@ -45,7 +45,7 @@ done < /vagrant/jenkins-plugins.txt
 java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD install-plugin $list
 
 echo "upload pipeline config"
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth admin:admin check-configuration < jenkins.yml
+java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD check-configuration < jenkins.yml
 
 echo "Restarting Jenkins"
 sudo service jenkins restart
