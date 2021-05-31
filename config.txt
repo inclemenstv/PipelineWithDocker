@@ -1,9 +1,0 @@
-# Jenkins admin credentials
-ADMIN_USERNAME=admin1
-ADMIN_PASSWORD=admin1
-JENKINS_HOST=http://127.0.0.1:8080/
-
-
-#DockerHub credentials
-username=inclemenstv
-password=fabeer1994
