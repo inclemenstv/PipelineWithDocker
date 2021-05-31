@@ -21,7 +21,9 @@ sudo apt-get -y install jenkins > /dev/null 2>&1
 echo "Skipping the initial setup"
 echo 'JAVA_ARGS="-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/home/vagrant/jenkins.yml"' >> /etc/default/jenkins
 
-
+echo $ADMIN_USERNAME
+echo "export ADMIN_USERNAME=$ADMIN_USERNAME" >> /home/vagrant/.profile
+echo "export ADMIN_PASSWORD=$ADMIN_PASSWORD" >> /home/vagrant/.profile
 
 echo "Setting up users"
 sudo rm -rf /var/lib/jenkins/init.groovy.d
@@ -29,12 +31,13 @@ sudo mkdir /var/lib/jenkins/init.groovy.d
 sudo cp /vagrant/groovy_scripts/2-globalMatrixAuthorizationStrategy.groovy /var/lib/jenkins/init.groovy.d/
 sudo cp /vagrant/groovy_scripts/1-create-admin-user.groovy /var/lib/jenkins/init.groovy.d/
 sudo cp /vagrant/groovy_scripts/jenkins-set-url-and-email.groovy /var/lib/jenkins/init.groovy.d/
-sudo cp /vagrant/jenkins.yml /home/vagrant
+sudo cp /vagrant/init_job.xml /home/vagrant
 
 
 sudo service jenkins start
 sleep 1m
 
+echo $ADMIN_USERNAME
 echo "Installing jenkins plugins"
 rm -f jenkins_cli.jar.*
 wget -q $JENKINS_HOST/jnlpJars/jenkins-cli.jar
@@ -44,11 +47,13 @@ do
 done < /vagrant/jenkins-plugins.txt
 java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD install-plugin $list
 
-echo "upload pipeline config"
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD check-configuration < jenkins.yml
-
 echo "Restarting Jenkins"
 sudo service jenkins restart
 
 sleep 1m
+
+echo "create job"
+sudo su - jenkins
+java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job init_job < init_job.xml
+
 

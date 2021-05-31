@@ -42,14 +42,14 @@ pipeline {
             steps {
                 echo "Start remove image..."
                 sh '''
-                   docker rmi inclemenstv/web_apps:latest
+                   docker image prune -f
                 '''
             }
         }
         stage('5-Deploy') {
             steps {
-            echo "Start of Stage Deploy..."
-            echo "Deploying..."
+                echo "Start of Stage Deploy..."
+                echo "Deploying..."
                 script {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """ssh -tt root@192.168.33.11 << EOF
@@ -62,7 +62,7 @@ pipeline {
                 EOF"""
                 }
                 }
-            echo "End of Stage Build..."
+                echo "End of Stage Build..."
             }
         }
         stage('6-Test') {
@@ -70,7 +70,10 @@ pipeline {
                 echo "Start of Stage Test..."
                 echo "Testing..."
                 sh '''
-                curl -k http://192.168.33.11:8080
+
+                curl -L -s -o /dev/null -I -w "%{http_code}" http://192.168.33.11:8080 | grep 200
+                echo $?
+
                 '''
                 echo "End of Stage Build..."
             }
