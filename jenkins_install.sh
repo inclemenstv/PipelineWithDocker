@@ -21,39 +21,44 @@ sudo apt-get -y install jenkins > /dev/null 2>&1
 echo "Skipping the initial setup"
 echo 'JAVA_ARGS="-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/home/vagrant/jenkins.yml"' >> /etc/default/jenkins
 
-echo $ADMIN_USERNAME
-echo "export ADMIN_USERNAME=$ADMIN_USERNAME" >> /home/vagrant/.profile
-echo "export ADMIN_PASSWORD=$ADMIN_PASSWORD" >> /home/vagrant/.profile
+echo "Create env varibles"
+sudo su - jenkins
+sudo echo "export ADMIN_USERNAME=$ADMIN_USERNAME" >> /etc/profile
+sudo echo "export ADMIN_PASSWORD=$ADMIN_USERNAME" >> /etc/profile
+sudo echo "export JENKINS_HOST=$JENKINS_HOST" >> /etc/profile
+sudo echo "export JENKINS_EMAIL=$JENKINS_EMAIL" >> /etc/profile
+sudo echo "export JOB_NAME=$JOB_NAME" >> /etc/profile
+sudo echo "export GIT_URL=$GIT_URL" >> /etc/profile
+
 
 echo "Setting up users"
 sudo rm -rf /var/lib/jenkins/init.groovy.d
 sudo mkdir /var/lib/jenkins/init.groovy.d
-sudo cp /vagrant/groovy_scripts/2-globalMatrixAuthorizationStrategy.groovy /var/lib/jenkins/init.groovy.d/
 sudo cp /vagrant/groovy_scripts/1-create-admin-user.groovy /var/lib/jenkins/init.groovy.d/
-sudo cp /vagrant/groovy_scripts/jenkins-set-url-and-email.groovy /var/lib/jenkins/init.groovy.d/
-sudo cp /vagrant/init_job.xml /home/vagrant
+sudo cp /vagrant/job_config.xml /home/vagrant
+envsubst < job_config.xml > init_job.xml
 
 
 sudo service jenkins start
 sleep 1m
 
 echo $ADMIN_USERNAME
+echo $ADMIN_PASSWORD
 echo "Installing jenkins plugins"
+JENKINSPWD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 rm -f jenkins_cli.jar.*
 wget -q $JENKINS_HOST/jnlpJars/jenkins-cli.jar
 while IFS= read -r line
 do
   list=$list' '$line
 done < /vagrant/jenkins-plugins.txt
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD install-plugin $list
+java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$JENKINSPWD install-plugin $list
 
 echo "Restarting Jenkins"
 sudo service jenkins restart
-
 sleep 1m
 
 echo "create job"
 sudo su - jenkins
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job init_job < init_job.xml
-
+java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job $JOB_NAME < init_job.xml
 

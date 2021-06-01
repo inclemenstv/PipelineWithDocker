@@ -4,20 +4,21 @@
 import jenkins.model.Jenkins
 import jenkins.model.JenkinsLocationConfiguration
 
-// parameters
-def jenkinsParameters = [
-  email:  'Jenkins Admin <admin@jenkins.com>',
-  url:    'http://127.0.0.1:8080/'
-]
+
+def env = System.getenv()
+def JENKINS_HOST = env['JENKINS_HOST']
+def JENKINS_EMAIL = env['JENKINS_EMAIL']
+
 
 // get Jenkins location configuration
 def jenkinsLocationConfiguration = JenkinsLocationConfiguration.get()
 
 // set Jenkins URL
-jenkinsLocationConfiguration.setUrl(jenkinsParameters.url)
+jenkinsLocationConfiguration.setUrl("${JENKINS_HOST}")
 
 // set Jenkins admin email address
-jenkinsLocationConfiguration.setAdminAddress(jenkinsParameters.email)
+jenkinsLocationConfiguration.setAdminAddress("${JENKINS_EMAIL}")
 
 // save current Jenkins state to disk
 jenkinsLocationConfiguration.save()
+

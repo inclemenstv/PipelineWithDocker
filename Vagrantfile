@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
   web.vm.box = "bento/ubuntu-20.04"
   web.vm.define "web"
   web.vm.hostname = "web"
-  web.vm.network "private_network", ip: "192.168.33.11"
+  web.vm.network "private_network", ip: "$DEPLOY_HOST"
   web.vm.provider "virtualbox" do |vb|
     vb.gui = false
     vb.cpus = 2
