@@ -2,3 +2,7 @@
 config.txt
 .vagrant
 .idea
+job_config.xml
+Vagrantfile
+./groovy_scripts/init_script.groovy
+
