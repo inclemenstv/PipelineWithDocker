@@ -13,7 +13,7 @@ pipeline {
         stage('1-Docker login') {
             steps {
                 echo "Docker login..."
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'DockerHubInclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh '''
                    docker login -u $USERNAME -p $PASSWORD
                 '''
@@ -51,7 +51,7 @@ pipeline {
                 echo "Start of Stage Deploy..."
                 echo "Deploying..."
                 script {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_inclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'DockerHubInclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh """ssh -tt root@192.168.33.11 << EOF
                 docker login -u $USERNAME -p $PASSWORD
                 docker stop web_app
@@ -72,10 +72,14 @@ pipeline {
                 sh '''
 
                 curl -L -s -o /dev/null -I -w "%{http_code}" http://192.168.33.11:8080 | grep 200
-                echo $?
-
+                if [ "$?" == '200']
+                then
+                    echo "Test Passed"
+                else
+                    echo "Test Failed"
+                fi
                 '''
-                echo "End of Stage Build..."
+                echo "End of Stage Test..."
             }
         }
     }

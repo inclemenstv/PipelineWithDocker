@@ -27,6 +27,7 @@ sudo rm -rf /var/lib/jenkins/init.groovy.d
 sudo mkdir /var/lib/jenkins/init.groovy.d
 sudo cp /vagrant/groovy_scripts/init_script.groovy /var/lib/jenkins/init.groovy.d/
 sudo cp /vagrant/job_config.xml /home/vagrant
+sudo cp /vagrant/credential.xml /home/vagrant
 
 
 sudo service jenkins start
@@ -51,4 +52,6 @@ sleep 1m
 echo "create job"
 sudo su - jenkins
 java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job $JOB_NAME < job_config.xml
+echo "add credential"
+java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-credentials-by-xml system::system::jenkins _  < credential.xml
 
