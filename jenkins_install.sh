@@ -21,22 +21,12 @@ sudo apt-get -y install jenkins > /dev/null 2>&1
 echo "Skipping the initial setup"
 echo 'JAVA_ARGS="-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/home/vagrant/jenkins.yml"' >> /etc/default/jenkins
 
-echo "Create env varibles"
-#sudo su - jenkins
-#sudo echo "export ADMIN_USERNAME=$ADMIN_USERNAME" >> /etc/profile
-#sudo echo "export ADMIN_PASSWORD=$ADMIN_USERNAME" >> /etc/profile
-#sudo echo "export JENKINS_HOST=$JENKINS_HOST" >> /etc/profile
-#sudo echo "export JENKINS_EMAIL=$JENKINS_EMAIL" >> /etc/profile
-#sudo echo "export JOB_NAME=$JOB_NAME" >> /etc/profile
-#sudo echo "export GIT_URL=$GIT_URL" >> /etc/profile
-
 
 echo "Setting up users"
 sudo rm -rf /var/lib/jenkins/init.groovy.d
 sudo mkdir /var/lib/jenkins/init.groovy.d
 sudo cp /vagrant/groovy_scripts/init_script.groovy /var/lib/jenkins/init.groovy.d/
 sudo cp /vagrant/job_config.xml /home/vagrant
-#envsubst < job_config.xml > init_job.xml
 
 
 sudo service jenkins start
