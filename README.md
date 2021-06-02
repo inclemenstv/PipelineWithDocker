@@ -16,5 +16,5 @@
 
 1. use script to generate config files  ./create_config_files.sh
 2. Use command vagrant up to create both VM
-3. Login to Jenkins by default ip 127.0.0.1:8080 use your credentials
+3. Login to Jenkins JENKINS_HOST:8080 use your credentials
 
