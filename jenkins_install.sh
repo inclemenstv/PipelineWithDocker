@@ -21,11 +21,6 @@ sudo apt-get -y install jenkins > /dev/null 2>&1
 echo "Skipping the initial setup"
 echo 'JAVA_ARGS="-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/home/vagrant/jenkins.yml"' >> /etc/default/jenkins
 
-echo "export env var"
-sudo echo "export DockerHub_USERNAME=$DockerHub_USERNAME" >> /etc/bash.bashrc
-sudo echo "export DockerHub_PASSWORD=$DockerHub_PASSWORD" >> /etc/bash.bashrc
-sudo echo "export DEPLOY_HOST=$DEPLOY_HOST" >> /etc/bash.bashrc
-
 
 echo "Setting up users"
 sudo rm -rf /var/lib/jenkins/init.groovy.d
@@ -58,4 +53,3 @@ sudo su - jenkins
 java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job $JOB_NAME < job_config.xml
 echo "add credential"
 java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-credentials-by-xml system::system::jenkins _  < credential.xml
-
