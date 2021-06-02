@@ -6,12 +6,11 @@ Vagrant.configure("2") do |config|
   jenkins.vm.box = "bento/ubuntu-20.04"
   jenkins.vm.define "jenkins"
   jenkins.vm.hostname = "jenkins"
-#  jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
   jenkins.vm.network "private_network", ip: "$JENKINS_HOST"
   jenkins.vm.provider "virtualbox" do |vb|
     vb.gui = false
-    vb.cpus = 2
-    vb.memory = 4096
+    vb.cpus = $JENKINS_VM_CPU
+    vb.memory = $JENKINS_VM_MEMORY
   end
   jenkins.vm.provision "shell" do |shell|
     shell.path = "jenkins_install.sh"
@@ -30,8 +29,8 @@ Vagrant.configure("2") do |config|
   web.vm.network "private_network", ip: "$DEPLOY_HOST"
   web.vm.provider "virtualbox" do |vb|
     vb.gui = false
-    vb.cpus = 2
-    vb.memory = "2048"
+    vb.cpus = $DEPLOY_VM_CPU
+    vb.memory = $DEPLOY_VM_MEMORY
   end
    web.vm.provision "shell" do |shell|
     shell.path = "docker_install.sh"
