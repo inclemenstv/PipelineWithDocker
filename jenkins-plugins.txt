@@ -24,7 +24,6 @@ pipeline-model-definition
 bouncycastle-api
 scm-api
 trilead-api
-configuration-as-code-groovy
 pipeline-stage-step
 pipeline-model-extensions
 handlebars
@@ -33,7 +32,6 @@ plain-credentials
 jackson2-api
 jdk-tool
 apache-httpcomponents-client-4-api
-configuration-as-code
 credentials
 jsch
 caffeine-api
@@ -56,6 +54,5 @@ workflow-multibranch
 command-launcher
 ssh-credentials
 cloudbees-folder
-configuration-as-code-secret-ssm
 momentjs
 pipeline-model-api
