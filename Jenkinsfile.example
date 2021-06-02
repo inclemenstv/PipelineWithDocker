@@ -5,26 +5,23 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
     environment {
-      PROJECT_NAME = "Task2-Jenkins"
-      OWNER_NAME   = "Kostiantyn Pishchanskyi"
+
     }
 
     stages {
         stage('1-Docker login') {
             steps {
                 echo "Docker login..."
-                withCredentials([usernamePassword(credentialsId: 'DockerHubInclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh '''
-                   docker login -u $USERNAME -p $PASSWORD
+                   docker login -u $DockerHub_USERNAME -p $DockerHub_PASSWORD
                 '''
-                }
             }
         }
         stage('2-Create docker image') {
             steps {
                 echo "Start Build image..."
                 sh '''
-                   docker build . -t inclemenstv/web_apps:latest
+                   docker build . -t $DockerHub_USERNAME/web_apps:latest
                 '''
                 echo "Building......."
                 echo "End of Stage Build..."
@@ -34,7 +31,7 @@ pipeline {
             steps {
                 echo "Start push image..."
                 sh '''
-                   docker push inclemenstv/web_apps:latest
+                   docker push $DockerHub_USERNAME/web_apps:latest
                 '''
             }
         }
@@ -51,18 +48,16 @@ pipeline {
                 echo "Start of Stage Deploy..."
                 echo "Deploying..."
                 script {
-                withCredentials([usernamePassword(credentialsId: 'DockerHubInclemenstv', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                sh """ssh -tt root@192.168.33.11 << EOF
-                docker login -u $USERNAME -p $PASSWORD
+                sh """ssh -tt root@$DEPLOY_HOST << EOF
+                docker login -u $DockerHub_USERNAME -p $DockerHub_PASSWORD
                 docker stop web_app
                 docker rm web_app
-                docker rmi inclemenstv/web_apps:latest
-                docker run -d -p 8080:80 --name web_app --restart unless-stopped inclemenstv/web_apps:latest
+                docker rmi $DockerHub_USERNAME/web_apps:latest
+                docker run -d -p 8080:80 --name web_app --restart unless-stopped $DockerHub_USERNAME/web_apps:latest
                 exit
                 EOF"""
                 }
-                }
-                echo "End of Stage Build..."
+                echo "End of Stage Deploy..."
             }
         }
         stage('6-Test') {
@@ -71,8 +66,8 @@ pipeline {
                 echo "Testing..."
                 sh '''
 
-                curl -L -s -o /dev/null -I -w "%{http_code}" http://192.168.33.11:8080 | grep 200
-                if [ "$?" == '200']
+                export result=curl -L -s -o /dev/null -I -w "%{http_code}" http://$DEPLOY_HOST:8080 | grep 200
+                if [ "$result" == '200']
                 then
                     echo "Test Passed"
                 else

@@ -33,17 +33,16 @@ sudo cp /vagrant/credential.xml /home/vagrant
 sudo service jenkins start
 sleep 1m
 
-echo $ADMIN_USERNAME
-echo $ADMIN_PASSWORD
+
 echo "Installing jenkins plugins"
 JENKINSPWD=$(sudo cat /var/lib/jenkins/secrets/initialAdminPassword)
 rm -f jenkins_cli.jar.*
-wget -q $JENKINS_HOST/jnlpJars/jenkins-cli.jar
+wget -q $JENKINS_HOST_URL/jnlpJars/jenkins-cli.jar
 while IFS= read -r line
 do
   list=$list' '$line
 done < /vagrant/jenkins-plugins.txt
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD install-plugin $list
+java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD install-plugin $list
 
 echo "Restarting Jenkins"
 sudo service jenkins restart
@@ -51,7 +50,7 @@ sleep 1m
 
 echo "create job"
 sudo su - jenkins
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job $JOB_NAME < job_config.xml
+java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job $JOB_NAME < job_config.xml
 echo "add credential"
-java -jar jenkins-cli.jar -s $JENKINS_HOST -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-credentials-by-xml system::system::jenkins _  < credential.xml
+java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-credentials-by-xml system::system::jenkins _  < credential.xml
 
