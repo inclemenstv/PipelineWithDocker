@@ -4,10 +4,7 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
-    environment {
-
-    }
-
+    
     stages {
         stage('1-Docker login') {
             steps {
