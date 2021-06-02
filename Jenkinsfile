@@ -5,7 +5,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
     environment {
-    DOCKERHUB = credentials('$DockerHub_ID')
+    DOCKERHUB = credentials("${env.DockerHub_ID}")
     }
     stages {
         stage('1-Docker login') {
