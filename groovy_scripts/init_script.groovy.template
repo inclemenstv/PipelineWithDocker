@@ -56,3 +56,4 @@ public createGlobalEnvironmentVariables(String key, String value){
 }
 createGlobalEnvironmentVariables('DockerHub_ID','$DockerHub_ID')
 createGlobalEnvironmentVariables('DEPLOY_HOST','$DEPLOY_HOST')
+createGlobalEnvironmentVariables('DockerHub_Repository','$DockerHub_Repository')

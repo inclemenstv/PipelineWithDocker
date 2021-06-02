@@ -5,7 +5,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
     environment {
-    DOCKERHUB = credentials("${env.DockerHub_ID}")
+        DOCKERHUB = credentials("${env.DockerHub_ID}")
     }
     stages {
         stage('1-Docker login') {
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 echo "Start Build image..."
                 sh '''
-                   docker build . -t $DOCKERHUB_USR/web_apps:latest
+                   docker build . -t $DOCKERHUB_USR/$DockerHub_Repository:latest
                 '''
                 echo "Building......."
                 echo "End of Stage Build..."
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo "Start push image..."
                 sh '''
-                   docker push $DOCKERHUB_USR/web_apps:latest
+                   docker push $DOCKERHUB_USR/$DockerHub_Repository:latest
                 '''
             }
         }
@@ -48,12 +48,12 @@ pipeline {
                 echo "Deploying..."
                 script {
                 sh """ssh -tt root@$DEPLOY_HOST << EOF
-                docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
-                docker stop web_app
-                docker rm web_app
-                docker rmi $DOCKERHUB_USR/web_apps:latest
-                docker run -d -p 8080:80 --name web_app --restart unless-stopped $DOCKERHUB_USR/web_apps:latest
-                exit
+                    docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
+                    docker stop web_app
+                    docker rm web_app
+                    docker rmi $DOCKERHUB_USR/$DockerHub_Repository:latest
+                    docker run -d -p 8080:80 --name web_app --restart unless-stopped $DOCKERHUB_USR/$DockerHub_Repository:latest
+                    exit
                 EOF"""
                 }
                 echo "End of Stage Deploy..."
@@ -64,14 +64,13 @@ pipeline {
                 echo "Start of Stage Test..."
                 echo "Testing..."
                 sh '''
-
-                export result=curl -L -s -o /dev/null -I -w "%{http_code}" http://$DEPLOY_HOST:8080 | grep 200
-                if [ "$result" == '200']
-                then
-                    echo "Test Passed"
-                else
-                    echo "Test Failed"
-                fi
+                    export result=curl -L -s -o /dev/null -I -w "%{http_code}" http://$DEPLOY_HOST:8080 | grep 200
+                    if [ "$result" == '200']
+                    then
+                        echo "Test Passed"
+                    else
+                        echo "Test Failed"
+                    fi
                 '''
                 echo "End of Stage Test..."
             }
