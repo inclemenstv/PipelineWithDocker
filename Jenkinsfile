@@ -4,23 +4,23 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
-    
+    environment {
+    DOCKERHUB = credentials('$DockerHub_ID')
+    }
     stages {
         stage('1-Docker login') {
             steps {
-            withCredentials([usernamePassword(credentialsId: '$DockerHub_ID', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 echo "Docker login..."
                 sh '''
-                   docker login -u ${USERNAME} -p PASSWORD
+                   docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
                 '''
-                }
             }
         }
         stage('2-Create docker image') {
             steps {
                 echo "Start Build image..."
                 sh '''
-                   docker build . -t $DockerHub_USERNAME/web_apps:latest
+                   docker build . -t $DOCKERHUB_USR/web_apps:latest
                 '''
                 echo "Building......."
                 echo "End of Stage Build..."
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo "Start push image..."
                 sh '''
-                   docker push $DockerHub_USERNAME/web_apps:latest
+                   docker push $DOCKERHUB_USR/web_apps:latest
                 '''
             }
         }
@@ -48,11 +48,11 @@ pipeline {
                 echo "Deploying..."
                 script {
                 sh """ssh -tt root@$DEPLOY_HOST << EOF
-                docker login -u $DockerHub_USERNAME -p $DockerHub_PASSWORD
+                docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
                 docker stop web_app
                 docker rm web_app
-                docker rmi $DockerHub_USERNAME/web_apps:latest
-                docker run -d -p 8080:80 --name web_app --restart unless-stopped $DockerHub_USERNAME/web_apps:latest
+                docker rmi $DOCKERHUB_USR/web_apps:latest
+                docker run -d -p 8080:80 --name web_app --restart unless-stopped $DOCKERHUB_USR/web_apps:latest
                 exit
                 EOF"""
                 }

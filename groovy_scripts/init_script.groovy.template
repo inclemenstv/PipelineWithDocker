@@ -55,6 +55,4 @@ public createGlobalEnvironmentVariables(String key, String value){
        instance.save()
 }
 createGlobalEnvironmentVariables('DockerHub_ID','$DockerHub_ID')
-createGlobalEnvironmentVariables('DockerHub_USERNAME','$DockerHub_USERNAME')
-createGlobalEnvironmentVariables('DockerHub_PASSWORD','$DockerHub_PASSWORD')
 createGlobalEnvironmentVariables('DEPLOY_HOST','$DEPLOY_HOST')
