@@ -8,14 +8,14 @@
 
 ### Preparation
 
-1. pre-install Vagrant (https://www.vagrantup.com/docs/installation)
+1. Pre-install Vagrant (https://www.vagrantup.com/docs/installation)
 2. Create .env files and copy the contents of .env.example into them
 3. Set your values to variables in the .env file
 4. You need to create a repository in dockerhub
 
 ### How to use
 
-1. use script to generate config files  ./create_config_files.sh
+1. Use script to generate config files  ./create_config_files.sh
 2. Use command vagrant up to create both VM
 3. Login to Jenkins JENKINS_HOST:8080 use your credentials
 

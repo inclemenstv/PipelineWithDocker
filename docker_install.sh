@@ -14,7 +14,7 @@ sudo apt-get -y install \
 echo "Add Docker’s official GPG key"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-echo "set up the stable repository."
+echo "Set up the stable repository."
 echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -27,7 +27,7 @@ user=`sudo cat /etc/passwd | awk -F ':' '{print $1}' | grep jenkins`
 
 if [ "$user" = "jenkins" ]
 then
-echo "added jenkins user to group docker"
+echo "Adding jenkins user to group docker"
 sudo usermod -a -G docker jenkins
 sudo service jenkins restart
 sleep 1m
