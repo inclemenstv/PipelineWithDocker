@@ -64,7 +64,7 @@ pipeline {
                 echo "Start of Stage Test..."
                 echo "Testing..."
                 sh '''
-                    export result=curl -L -s -o /dev/null -I -w "%{http_code}" http://$DEPLOY_HOST:8080 | grep 200
+                    export result=curl -s -o /dev/null -I -w "%{http_code}" http://$DEPLOY_HOST:8080 | grep 200
                     if [ "$result" == '200']
                     then
                         echo "Test Passed"
