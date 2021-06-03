@@ -22,4 +22,15 @@ echo \
 echo "Installing Docker"
 sudo apt-get update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
+
+user=`sudo cat /etc/passwd | awk -F ':' '{print $1}' | grep jenkins`
+
+if [ "$user" = "jenkins" ]
+then
+echo "added jenkins user to group docker"
 sudo usermod -a -G docker jenkins
+sudo service jenkins restart
+sleep 1m
+fi
+
+
