@@ -1,4 +1,3 @@
-
 Vagrant.configure("2") do |config|
 
 #jenkins vm
@@ -33,6 +32,10 @@ Vagrant.configure("2") do |config|
    web.vm.provision "shell" do |shell|
     shell.path = "docker_install.sh"
   end
+  web.vm.provision "shell" do |shell|
+    shell.path = "copy_sshkey.sh"
+  end
+
   end
 
 

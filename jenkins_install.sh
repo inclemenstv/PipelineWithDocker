@@ -28,6 +28,12 @@ sudo mkdir /var/lib/jenkins/init.groovy.d
 sudo cp /vagrant/groovy_scripts/init_script.groovy /var/lib/jenkins/init.groovy.d/
 sudo cp /vagrant/job_config.xml /home/vagrant
 sudo cp /vagrant/credential.xml /home/vagrant
+sudo mkdir /var/lib/jenkins/.ssh
+sudo cp /vagrant/ssh_keys/id_rsa /var/lib/jenkins/.ssh
+sudo cp /vagrant/ssh_keys/id_rsa.pub /var/lib/jenkins/.ssh
+sudo chmod 600 /var/lib/jenkins/.ssh/*
+sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh/
+
 
 
 sudo service jenkins start
