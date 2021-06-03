@@ -47,7 +47,7 @@ pipeline {
                 echo "Start of Stage Deploy..."
                 echo "Deploying..."
                 script {
-                sh """ssh -tt -i /var/lib/jenkins/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$DEPLOY_HOST << EOF
+                sh """ssh -tt -i /var/lib/jenkins/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@$DEPLOY_HOST << EOF
                     docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
                     docker stop web_app
                     docker rm web_app
