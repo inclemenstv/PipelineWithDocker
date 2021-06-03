@@ -48,8 +48,8 @@ pipeline {
                 echo "Deploying..."
                 script {
                 sh """ssh -tt -i /var/lib/jenkins/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@$DEPLOY_HOST << EOF
-                    docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
-                    docker stop web_app
+                    sudo docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
+                    sudo docker stop web_app
                     docker rm web_app
                     docker rmi $DOCKERHUB_USR/$DockerHub_Repository:latest
                     docker run -d -p 8080:80 --name web_app --restart unless-stopped $DOCKERHUB_USR/$DockerHub_Repository:latest
