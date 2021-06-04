@@ -1,4 +1,5 @@
 #!/bin/bash
+source /vagrant/.env
 
 echo "Updating apt-get"
 sudo apt-get -qq update
@@ -31,6 +32,8 @@ echo "Adding jenkins user to group docker"
 sudo usermod -a -G docker jenkins
 sudo service jenkins restart
 sleep 1m
+echo "start job"
+java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD build $JOB_NAME
 fi
 
 
