@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    triggers{ pollSCM('* * * * *') }
     options {
         buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5'))
     }
@@ -77,8 +76,3 @@ pipeline {
         }
     }
 }
-
-
-1.Worked on task 2
-2.Researching about google cloud
-
