@@ -9,4 +9,5 @@ envsubst < credential.xml.template > credential.xml
 
 
 echo "Creating ssh keys"
+mkdir ./ssh_keys
 ssh-keygen -q -N '' -f ./ssh_keys/id_rsa <<<y 2>&1 >/dev/null
