@@ -59,5 +59,3 @@ sudo su - jenkins
 java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-job $JOB_NAME < job_config.xml
 echo "add credential"
 java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD create-credentials-by-xml system::system::jenkins _  < credential.xml
-echo "start job"
-java -jar jenkins-cli.jar -s $JENKINS_HOST_URL -auth $ADMIN_USERNAME:$ADMIN_PASSWORD build $JOB_NAME
