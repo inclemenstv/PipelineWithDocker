@@ -77,3 +77,8 @@ pipeline {
         }
     }
 }
+
+
+1.Worked on task 2
+2.Researching about google cloud
+
