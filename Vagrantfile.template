@@ -35,9 +35,6 @@ Vagrant.configure("2") do |config|
   web.vm.provision "shell" do |shell|
     shell.path = "copy_sshkey.sh"
   end
-  web.vm.provision "shell" do |shell|
-    shell.path = "start_initial_job.sh"
-  end
   end
 
 
