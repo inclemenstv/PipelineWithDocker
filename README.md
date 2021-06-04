@@ -18,4 +18,4 @@
 1. Use script to generate config files  ./create_config_files.sh
 2. Use command vagrant up to create both VM
 3. Login to Jenkins JENKINS_HOST:8080 use your credentials
-
+   
